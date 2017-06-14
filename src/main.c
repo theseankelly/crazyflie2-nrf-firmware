@@ -288,8 +288,8 @@ void mainloop()
 
     // Wait a while to start pushing over the syslink since UART pins are used to launch STM32 i bootloader as well
     if (systickGetTick() > SYSLINK_STARTUP_DELAY_TIME_MS) {
-      // Send the battery voltage and state to the STM every SYSLINK_SEND_PERIOD_MS
-      if (systickGetTick() >= vbatSendTime + SYSLINK_SEND_PERIOD_MS) {
+      // Send the battery voltage and state to the STM every 1ms
+      if (systickGetTick() >= vbatSendTime + 1) {
         float fdata;
         uint8_t flags = 0;
 
