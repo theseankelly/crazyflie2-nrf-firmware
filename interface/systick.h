@@ -27,5 +27,5 @@
 void systickInit();
 
 unsigned int systickGetTick();
-
+unsigned int getRTCTicks();
 #endif //__SYSTICK_H__

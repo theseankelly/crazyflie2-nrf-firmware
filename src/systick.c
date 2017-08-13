@@ -37,12 +37,7 @@ void TIMER2_IRQHandler()
 
 void systickInit()
 {
-//  NRF_RTC1->PRESCALER = 327; //100Hz systick
-//  NRF_RTC1->EVTENSET = RTC_EVTENSET_TICK_Msk;
-//  NRF_RTC1->INTENSET = RTC_INTENSET_TICK_Msk;
-//  NVIC_EnableIRQ(RTC1_IRQn);
-
-//  NRF_RTC1->TASKS_START = 1UL;
+  NRF_RTC1->TASKS_START = 1UL;
 
   NRF_TIMER2->TASKS_CLEAR = 1;
 
@@ -61,3 +56,7 @@ unsigned int systickGetTick()
   return tick;
 }
 
+unsigned int getRTCTicks()
+{
+  return NRF_RTC1->COUNTER;
+}

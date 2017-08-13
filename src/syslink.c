@@ -22,6 +22,7 @@
  * License along with this library.
  */
 #include "syslink.h"
+#include "systick.h"
 #include "uart.h"
 
 #include <nrf.h>
@@ -46,6 +47,8 @@
 #define START "\xbc\xcf"
 #define START_BYTE1 0xBC
 #define START_BYTE2 0xCF
+
+uint32_t lastSyslinkSentAt = 0;
 
 bool syslinkReceive(struct syslinkPacket *packet)
 {
@@ -153,6 +156,12 @@ bool syslinkSend(struct syslinkPacket *packet)
   uint8_t cksum_b=0;
   int i;
 
+  uint32_t RTCBefore = getRTCTicks();
+
+  float timeBetweenSyslinkSend = (RTCBefore - lastSyslinkSentAt) * 30.517;
+  lastSyslinkSentAt = RTCBefore;
+  timeBetweenSyslinkSend;
+
   uartPuts(START);
 
   uartPutc((unsigned char)packet->type);
@@ -172,6 +181,11 @@ bool syslinkSend(struct syslinkPacket *packet)
 
   uartPutc(cksum_a);
   uartPutc(cksum_b);
+
+  uint32_t RTCAfter = getRTCTicks();
+
+  float elapsedMicroseconds = (RTCAfter - RTCBefore) * 30.517;
+  elapsedMicroseconds;
 
   return true;
 }
